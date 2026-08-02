@@ -434,6 +434,88 @@ section { padding: 56px 0; }
 }
 
 /* ============================================================
+   文章详情页
+   ============================================================ */
+.article-post {
+  padding: 120px 0 80px;
+}
+.article-container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.article-header {
+  margin-bottom: 40px;
+}
+.article-header .meta {
+  font-size: 0.82rem;
+  color: var(--text-faint);
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+.article-header h1 {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+  margin-bottom: 16px;
+}
+.article-excerpt {
+  color: var(--text-soft);
+  font-size: 1.02rem;
+  max-width: 600px;
+  line-height: 1.8;
+}
+.article-cover {
+  aspect-ratio: 16 / 9;
+  background: var(--bg-soft);
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-faint);
+  font-family: var(--serif);
+  letter-spacing: 0.2em;
+  margin-bottom: 40px;
+}
+.article-cover .placeholder {
+  font-size: 1.05rem;
+}
+.article-body {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: var(--text);
+}
+.article-body h2 {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 36px 0 14px;
+  letter-spacing: 0.02em;
+}
+.article-body p {
+  margin-bottom: 20px;
+  color: var(--text-soft);
+}
+.article-nav {
+  margin-top: 60px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.article-nav a {
+  font-size: 0.92rem;
+  color: var(--text-soft);
+  border-bottom: 1px solid transparent;
+  transition: all 0.25s ease;
+}
+.article-nav a:hover {
+  color: var(--accent-strong);
+  border-color: var(--accent);
+}
+
+/* ============================================================
     反馈页 · 瀑布流 + 内联复盘心得
    ============================================================ */
 .masonry {
@@ -928,6 +1010,8 @@ section { padding: 56px 0; }
   .article-row { grid-template-columns: 1fr; gap: 12px; }
   .article-row .thumb { display: none; }
   .article-row .read-more { grid-column: 1; }
+  .article-post { padding-top: 100px; }
+  .article-header h1 { font-size: 1.7rem; }
   .footer-inner { flex-direction: column; text-align: center; }
 }
 
