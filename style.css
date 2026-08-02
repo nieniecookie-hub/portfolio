@@ -3,6 +3,9 @@
    莫兰迪 Morandi 配色 · 极简 · 纯净 HTML/CSS/JS
    ============================================================ */
 
+@import url("https://cdn.jsdelivr.net/npm/@fontsource-variable/noto-sans-sc/index.css");
+@import url("https://cdn.jsdelivr.net/npm/@fontsource-variable/noto-serif-sc/index.css");
+
 :root {
   /* 莫兰迪色板 */
   --bg: #faf8f5;            /* 暖白背景 */
@@ -16,9 +19,9 @@
   --accent-strong: #4da7ee;
   --accent-soft: rgba(77, 167, 238, 0.14);
 
-  /* 排版 */
-  --serif: "Songti SC", "Noto Serif SC", "STSong", "SimSun", Georgia, serif;
-  --sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", -apple-system, "Helvetica Neue", sans-serif;
+  /* 排版：网页字体保证各设备渲染一致 */
+  --serif: "Noto Serif SC Variable", "Noto Serif SC", "Songti SC", "STSong", "SimSun", Georgia, serif;
+  --sans: "Noto Sans SC Variable", "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", -apple-system, "Helvetica Neue", sans-serif;
 }
 
 /* ---------- 基础 ---------- */
