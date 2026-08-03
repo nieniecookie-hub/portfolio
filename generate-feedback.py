@@ -3,7 +3,7 @@
 
 用法:
   1. 把反馈截图放进 feedback-images/ 文件夹
-  2. (可选) 在 feedback-notes.txt 里写复盘心得，格式:  前缀: 心得文字  (每行一条)
+  2. (可选) 在 feedback-notes.txt 里写复盘心得，格式:  前缀|YYYY/MM/DD: 心得文字  (每行一条)
   3. 运行:  python3 generate-feedback.py
   4. 脚本自动重写 feedback.html 中 FEEDBACK-BLOCKS-START/END 之间的内容
 
@@ -11,6 +11,10 @@
   - 同一次对话的多张截图: 用相同前缀命名，如  cosmetic-1.jpg, cosmetic-2.jpg
     (前缀 = 最后一个 -数字 之前的部分)
   - 单张反馈: 文件名随意，不带 "-数字" 结尾即可
+
+排序规则:
+  - 按 feedback-notes.txt 里的日期倒序排列（最新的在最上面）
+  - 没有日期的排在最后，按前缀字母序
 """
 import os
 import re
@@ -36,16 +40,25 @@ def group_key(fname):
 
 
 def read_notes():
-    """读复盘心得: 每行 前缀: 内容"""
+    """读复盘心得: 每行 前缀|YYYY/MM/DD: 内容  (日期可选)"""
     notes = {}
     if not os.path.exists(NOTES_FILE):
         return notes
     with open(NOTES_FILE, encoding="utf-8") as f:
         for line in f:
             line = line.strip()
-            if ":" in line:
-                k, v = line.split(":", 1)
-                notes[k.strip()] = v.strip()
+            if ":" not in line:
+                continue
+            key_part, note = line.split(":", 1)
+            key_part = key_part.strip()
+            date = None
+            if "|" in key_part:
+                key, date = key_part.split("|", 1)
+                key = key.strip()
+                date = date.strip()
+            else:
+                key = key_part
+            notes[key] = {"note": note.strip(), "date": date}
     return notes
 
 
@@ -74,6 +87,15 @@ def make_block(key, imgs, note):
     return b
 
 
+def sort_key(item):
+    """按日期倒序（新→旧）。无日期排最后。"""
+    key, meta = item
+    date = meta.get("date") if meta else None
+    if not date:
+        return (1, key)  # 无日期 → 排后面
+    return (0, "")
+
+
 def main():
     if not os.path.isdir(IMG_DIR):
         print("错误: 没有 feedback-images/ 文件夹")
@@ -91,9 +113,24 @@ def main():
         groups.setdefault(group_key(f), []).append(f)
 
     notes = read_notes()
+
+    # 有日期的组按日期倒序排；无日期的排最后
+    dated = []
+    undated = []
+    for key in groups:
+        meta = notes.get(key, {})
+        if meta and meta.get("date"):
+            dated.append((key, meta))
+        else:
+            undated.append((key, meta))
+
+    dated.sort(key=lambda kv: kv[1]["date"], reverse=True)  # 新→旧
+    undated.sort(key=lambda kv: kv[0])
+    ordered = dated + undated
+
     blocks = []
-    for key in sorted(groups):
-        note = notes.get(key, "在此写下你对这个案例的复盘与感悟……")
+    for key, meta in ordered:
+        note = meta.get("note", "在此写下你对这个案例的复盘与感悟……") if meta else "在此写下你对这个案例的复盘与感悟……"
         blocks.append(make_block(key, groups[key], note))
 
     generated = "\n\n".join(blocks)
@@ -116,9 +153,11 @@ def main():
         f.write(doc)
 
     print(f"成功: 生成了 {len(blocks)} 组反馈块（共 {len(files)} 张图片）")
-    for key in sorted(groups):
-        print(f"  - {key}: {len(groups[key])} 张")
+    for key, meta in ordered:
+        date = meta.get("date", "无日期") if meta else "无日期"
+        print(f"  - {date} {key}: {len(groups[key])} 张")
 
 
 if __name__ == "__main__":
     main()
+
