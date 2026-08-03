@@ -46,9 +46,18 @@
 - 字体: https://cdn.jsdelivr.net/npm/@fontsource-variable/noto-serif-sc/index.css
 - 邮箱: nieniecookie-hub@GitHub
 - SSH key: ~/.ssh/id_ed25519 (已添加到 GitHub)
+- 微博备份 PDF: /Users/mandychen/Desktop/@古占味的小满_原创微博.pdf (193MB, 481页)
+- PDF 工具: PyMuPDF (python3 import fitz) 已安装
 
 ## Visual/Browser Findings
 - 无头 Chrome 渲染截图验证：文章页面布局正确，导航 0-68px，留白 70-150px，标题 150-260px
 - 公众号文章样式：body 字号 17px、文字颜色 #333、图片宽度自适应 640px
 - rachelchen.tech 的 hero: 大标题 + 单行 tagline + 简洁导航
 - 反馈页瀑布流在手机端自动降为单列，看起来不乱
+
+## PDF 提取技术笔记
+- 微博备份 PDF 每页结构：日期行 → 位置(浙江/福建等) → 帖子文字 → 固定页脚(2026/8/3 16:04 @古占味.../481)
+- 图片过滤规则：`page.get_image_info(xrefs=True)`，跳过 w<90 或 h<150 的图（头像200x320、资料图176x176、日期竖线18x30、点赞27x27）
+- 多帖页按 y 坐标判断图片归属（图片 y 靠近哪个帖子的文字块）
+- RGBA/ICCBased 色彩空间：`fitz.Pixmap(fitz.csRGB, pix)` 转换后再保存
+- 已搬运进度和下一页位置见 handoff.md「微博 PDF 备份搬运流程」

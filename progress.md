@@ -42,6 +42,19 @@
 
 ## 当前状态
 - 线上正常运行: https://nieniecookie-hub.github.io/portfolio/
-- 1 篇真实文章，7 篇占位，1 条真实反馈
+- 1 篇真实文章，7 篇占位，12 条真实反馈（含 10 条微博搬运）
 - 用户工具：GitHub Desktop + VS Code / 文本编辑
 - 下次会话：读 handoff.md + task_plan.md 即可恢复上下文
+
+## Session: 2026-08-03 — 微博反馈批量搬运
+
+### 完成
+- [x] 定位微博备份 PDF: /Users/mandychen/Desktop/@古占味的小满_原创微博.pdf (193MB, 481页)
+- [x] 建立批量工作流: feedback-images/ 文件夹 + generate-feedback.py + feedback-notes.txt
+- [x] 验证图片提取方法（xref 精确定位，跳过头像/图标）
+- [x] 搬运最新 12 条反馈（含已搬的 cosmetic 和 doctor-case）
+- [x] 推送上线
+
+### 下次继续
+- 从 P28 (05/07 卜卦来财反馈) 开始继续搬运，向后约 200 条
+- 详情见 handoff.md 的「微博 PDF 备份搬运流程」表格
