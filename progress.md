@@ -42,7 +42,7 @@
 
 ## 当前状态
 - 线上正常运行: https://nieniecookie-hub.github.io/portfolio/
-- 1 篇真实文章，7 篇占位，12 条真实反馈（含 10 条微博搬运）
+- 1 篇真实文章，7 篇占位，27 条真实反馈（含 25 条微博搬运，按日期倒序）
 - 用户工具：GitHub Desktop + VS Code / 文本编辑
 - 下次会话：读 handoff.md + task_plan.md 即可恢复上下文
 
@@ -56,5 +56,6 @@
 - [x] 推送上线
 
 ### 下次继续
-- 从 P28 (05/07 卜卦来财反馈) 开始继续搬运，向后约 200 条
+- 严格按 PDF 顺序，2026 段已搬完（P2-P41），从 P41 之后继续
+- 跳过已搬的 2024 帖子（year-end-bonus/true-love/exam-pass/praise-m/medical-knee）
 - 详情见 handoff.md 的「微博 PDF 备份搬运流程」表格
