@@ -547,6 +547,33 @@ section { padding: 56px 0; }
   border-top: 1px solid var(--line);
   margin: 36px 0;
 }
+.ac-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 18px 0;
+  font-size: 0.95rem;
+}
+.ac-table th,
+.ac-table td {
+  border: 1px solid var(--line);
+  padding: 10px 14px;
+  text-align: center;
+  line-height: 1.6;
+}
+.ac-table th {
+  background: var(--bg-soft);
+  font-weight: 600;
+  color: var(--text-soft);
+}
+.ac-quote {
+  border-left: 3px solid var(--accent);
+  background: var(--bg-soft);
+  padding: 14px 18px;
+  margin: 20px 0;
+  font-style: italic;
+  color: var(--text-soft);
+  line-height: 1.8;
+}
 
 /* ============================================================
     反馈页 · 瀑布流 + 内联复盘心得
