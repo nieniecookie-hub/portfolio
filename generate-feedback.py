@@ -63,17 +63,18 @@ def read_notes():
 
 
 def make_block(key, imgs, note):
-    first, rest = imgs[0], imgs[1:]
     b = f'        <div class="feedback-block" data-reveal>\n'
-    b += f'            <div class="fb-media">\n'
-    b += f'              <img src="feedback-images/{first}" alt="反馈 {key}" class="fb-img-main" />\n'
-    if rest:
-        b += f'              <div class="fb-more-imgs" style="display:none;">\n'
-        for img in rest:
-            b += f'                <img src="feedback-images/{img}" alt="反馈 {key}" class="fb-img-main" />\n'
-        b += f'              </div>\n'
-        b += f'              <button class="fb-toggle-imgs">查看全部截图 ({len(imgs)}) ▾</button>\n'
-    b += f'            </div>\n'
+    if imgs:
+        first, rest = imgs[0], imgs[1:]
+        b += f'            <div class="fb-media">\n'
+        b += f'              <img src="feedback-images/{first}" alt="反馈 {key}" class="fb-img-main" />\n'
+        if rest:
+            b += f'              <div class="fb-more-imgs" style="display:none;">\n'
+            for img in rest:
+                b += f'                <img src="feedback-images/{img}" alt="反馈 {key}" class="fb-img-main" />\n'
+            b += f'              </div>\n'
+            b += f'              <button class="fb-toggle-imgs">查看全部截图 ({len(imgs)}) ▾</button>\n'
+        b += f'            </div>\n'
     b += f'            <div class="fb-notes">\n'
     b += f'              <div class="fb-notes-header">\n'
     b += f'                <span class="fb-notes-label">复盘心得</span>\n'
@@ -104,8 +105,8 @@ def main():
     files = sorted(
         f for f in os.listdir(IMG_DIR) if os.path.splitext(f)[1].lower() in EXTS
     )
-    if not files:
-        print("错误: feedback-images/ 里没有图片")
+    if not files and not os.path.exists(NOTES_FILE):
+        print("错误: 既没有图片也没有心得文件")
         sys.exit(1)
 
     groups = {}
@@ -113,6 +114,11 @@ def main():
         groups.setdefault(group_key(f), []).append(f)
 
     notes = read_notes()
+
+    # 补入纯文字条目（notes 里有但没对应图片的）
+    for key in notes:
+        if key not in groups:
+            groups[key] = []
 
     # 有日期的组按日期倒序排；无日期的排最后
     dated = []
@@ -155,7 +161,9 @@ def main():
     print(f"成功: 生成了 {len(blocks)} 组反馈块（共 {len(files)} 张图片）")
     for key, meta in ordered:
         date = meta.get("date", "无日期") if meta else "无日期"
-        print(f"  - {date} {key}: {len(groups[key])} 张")
+        imgs_count = len(groups[key])
+        tag = f"{imgs_count} 张" if imgs_count else "纯文字"
+        print(f"  - {date} {key}: {tag}")
 
 
 if __name__ == "__main__":
